@@ -39,6 +39,8 @@ class AudioFile:
 #            self.samplesleft.append(x[1])
 #            self.samplesright.append(x[0])
 
+        #self.samplesleft, self.samplesright = self.audio[1].T
+
     def display_plot(self, start_at_second, end_at_second):
         start_at_second = round_seconds_by_frequency(self.framerate, start_at_second)
         end_at_second = round_seconds_by_frequency(self.framerate, end_at_second)
@@ -63,15 +65,17 @@ class AudioFile:
 
     def detect_notes(self):
         #self.sampleblocks = np.array(self.audio[1])
-        possibleBPM = [200, 183, 164, 129, 112, 90, 79, 65, 57, 52, 51, 45, 35]
-        possibleBPS = [x/60 for x in possibleBPM]
-        total_beats = len(possibleBPS[1] * self.audio[1] / self.framerate)
+        possible_bpm = [200, 183, 164, 129, 112, 90, 79, 65, 57, 52, 51, 45, 35]
+        possible_bps = [x/60 for x in possible_bpm]
+        total_beats = possible_bps[0] * len(self.audio[1]) / self.framerate
         total_full_beats = int(total_beats)
         holder = []
-        for i in range(len(self.audio[1]), total_full_beats * , -1):
+        print(len(self.audio[1]), 'here')
+        print(total_beats)
+        for i in range(len(self.audio[1]), int((total_full_beats * self.framerate) / possible_bps[0]), -1):
             holder.append(i)
             self.audio[1][:-1]
-        self.audio[1].reshape(2, -1)
+        print(self.audio[1].reshape(total_full_beats, -1))
 
     def detect_tempo(self):
         pass
