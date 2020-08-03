@@ -32,14 +32,11 @@ class AudioFile:
             self.convert('wav')
         self.audio = read(self.directory)
         self.framerate = self.audio[0]
-#        self.samplesleft = []
-#        self.samplesright = []
-
-#        for x in self.samples:
-#            self.samplesleft.append(x[1])
-#            self.samplesright.append(x[0])
-
-        #self.samplesleft, self.samplesright = self.audio[1].T
+        if isinstance(self.audio[1][0], list):
+            self.samplesleft, self.samplesright = self.audio[1].T
+        else:
+            self.samplesleft = self.audio[1]
+            self.samplesright = self.audio[1]
 
     def display_plot(self, start_at_second, end_at_second):
         start_at_second = round_seconds_by_frequency(self.framerate, start_at_second)
@@ -47,16 +44,12 @@ class AudioFile:
         audio_length = end_at_second - start_at_second
 
         plt.plot([x/self.framerate for x in range(0, int(audio_length * self.framerate))],
-                 self.audio[1][int(start_at_second * self.framerate): int(self.framerate * end_at_second)],
+                 self.samplesright[int(start_at_second * self.framerate): int(self.framerate * end_at_second)],
                  linewidth=0.5)
 
-#        plt.plot([x/self.framerate for x in range(0, int(audio_length * self.framerate))],
-#                 self.samplesright[int(start_at_second * self.framerate): int(self.framerate * end_at_second)],
-#                 linewidth=0.5)
-#
-#        plt.plot([x/self.framerate for x in range(0, int(audio_length * self.framerate))],
-#                 self.samplesleft[int(self.framerate * start_at_second): int(self.framerate * end_at_second)],
-#                 linewidth=0.5)
+        plt.plot([x/self.framerate for x in range(0, int(audio_length * self.framerate))],
+                 self.samplesleft[int(self.framerate * start_at_second): int(self.framerate * end_at_second)],
+                 linewidth=0.5)
 
         plt.ylabel("Amplitude")
         plt.xlabel("Time [s]")
@@ -77,8 +70,7 @@ class AudioFile:
             self.audio[1][:-1]
         print(self.audio[1].reshape(total_full_beats, -1))
 
-    def detect_tempo(self):
-        pass
+
 
 
 def round_seconds_by_frequency(framerate, seconds):
@@ -87,12 +79,13 @@ def round_seconds_by_frequency(framerate, seconds):
     seconds = seconds / framerate
     return seconds
 
+a = AudioFile('samples/metronome145.wav')
 
-a = AudioFile('samples/sax.wav')
 
 start_time = time.time()
 a.read_audio_samples()
-a.display_plot(0, 1)
-a.detect_notes()
+a.display_plot(0, 4)
+real_tempo = 145
+a.detect_tempo()
 
 print("--- %s seconds ---" % (time.time() - start_time))

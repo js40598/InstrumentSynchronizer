@@ -1,0 +1,66 @@
+* Known issue: Panned tracks higher than 180bpm ping-pong from side to side.
+# That might be the reason why 180+BPM samples detected BPM is halved
+# No clue why 61BPM is detected as 51BPM, might be sample issue as well
+# Anyway will have to check this up later or try with some not randomly downloaded samples
+# Executed as:
+#
+#for key, value in samples.items():
+#    a = AudioFile(value)
+#    start_time = time.time()
+#    a.read_audio_samples()
+#    a.display_plot(0, 1)
+#    bpm = get_file_bpm(a.directory, params={'win_s': 128,
+#                                            'hop_s': 32,
+#                                            'samplerate': a.framerate
+#                                            })
+#    print('BPM expected: ', key, '\nBPM detected: ', bpm)
+#    print("--- %s seconds ---" % (time.time() - start_time))
+
+
+BPM expected:  45 
+BPM detected:  45.02464689952882
+--- 31.157769441604614 seconds ---
+
+BPM expected:  52 
+BPM detected:  52.028699302364814
+--- 30.38340425491333 seconds ---
+
+BPM expected:  57 
+BPM detected:  57.036596510059326
+--- 30.161235570907593 seconds ---
+
+BPM expected:  61 
+BPM detected:  51.02725149234363
+--- 31.74482798576355 seconds ---
+
+BPM expected:  65 
+BPM detected:  65.02716245379902
+--- 32.271803855895996 seconds ---
+
+BPM expected:  79 
+BPM detected:  79.03600896455383
+--- 31.299283742904663 seconds ---
+
+BPM expected:  90 
+BPM detected:  90.05909028445788
+--- 30.630198001861572 seconds ---
+
+BPM expected:  112 
+BPM detected:  112.08163497990479
+--- 30.59723925590515 seconds ---
+
+BPM expected:  129 
+BPM detected:  129.11271455660355
+--- 30.021398067474365 seconds ---
+
+BPM expected:  164 
+BPM detected:  164.19575747452814
+--- 30.86322855949402 seconds ---
+
+BPM expected:  183 
+BPM detected:  91.55363597734535
+--- 29.93153214454651 seconds ---
+
+BPM expected:  200 
+BPM detected:  100.07278650141247
+--- 29.82992196083069 seconds ---

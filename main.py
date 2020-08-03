@@ -1,80 +1,39 @@
 from scipy.io.wavfile import read
 import matplotlib.pyplot as plt
-import os
 import numpy as np
-from pydub import AudioSegment
 import time
+from instrsyn.AudioFile import AudioFile
+from instrsyn.round_seconds_by_frequency import round_seconds_by_frequency
+from instrsyn.bpm_detection import get_file_bpm
+import os.path
+
+samples = {
+    '45': 'samples/metronome/45.mp3',
+    '52': 'samples/metronome/52.mp3',
+    '57': 'samples/metronome/57.mp3',
+    '61': 'samples/metronome/61.mp3',
+    '65': 'samples/metronome/65.mp3',
+    '79': 'samples/metronome/79.wav',
+    '90': 'samples/metronome/90.mp3',
+    '112': 'samples/metronome/112.mp3',
+    '129': 'samples/metronome/129.mp3',
+    '164': 'samples/metronome/164.mp3',
+    '183': 'samples/metronome/183.mp3',
+    '200': 'samples/metronome/200.mp3',
+}
+
+for key, value in samples.items():
+    start_time = time.time()
+
+    a = AudioFile(value)
+    a.read_audio_samples()
+    a.display_plot(0, 1)
+    bpm = get_file_bpm(a.directory, params={'win_s': 128,
+                                            'hop_s': 32,
+                                            'samplerate': a.framerate
+                                            })
+    print('BPM expected: ', key, '\nBPM detected: ', bpm)
+    print("--- %s seconds ---" % (time.time() - start_time))
 
 
-class AudioFile:
-    def __init__(self, directory):
-        self.directory = directory
-        self.format = directory.split('.')[-1]
 
-    def convert(self, goto):
-        exto = os.path.splitext(self.directory)[0] + '.' + goto
-        if self.format == 'mp3':
-            exfrom = AudioSegment.from_mp3(self.directory)
-        elif self.format == 'wav':
-            exfrom = AudioSegment.from_wav(self.directory)
-        elif self.format == 'flv':
-            exfrom = AudioSegment.from_flv(self.directory)
-        elif self.format == 'ogg':
-            exfrom = AudioSegment.from_ogg(self.directory)
-        elif self.format == 'raw':
-            exfrom = AudioSegment.from_raw(self.directory)
-        exfrom.export(exto, format=goto)
-        print('Audio succesfully converted from {} to {}'.format(self.format, goto))
-        self.format = goto
-
-    def read_audio_samples(self):
-        if self.format != 'wav':
-            self.convert('wav')
-        self.audio = read(self.directory)
-        self.framerate = self.audio[0]
-#        self.samplesleft = []
-#        self.samplesright = []
-
-#        for x in self.samples:
-#            self.samplesleft.append(x[1])
-#            self.samplesright.append(x[0])
-
-        #self.samplesleft, self.samplesright = self.audio[1].T
-
-    def display_plot(self, start_at_second, end_at_second):
-        start_at_second = round_seconds_by_frequency(self.framerate, start_at_second)
-        end_at_second = round_seconds_by_frequency(self.framerate, end_at_second)
-        audio_length = end_at_second - start_at_second
-
-        plt.plot([x/self.framerate for x in range(0, int(audio_length * self.framerate))],
-                 self.audio[1][int(start_at_second * self.framerate): int(self.framerate * end_at_second)],
-                 linewidth=0.5)
-
-#        plt.plot([x/self.framerate for x in range(0, int(audio_length * self.framerate))],
-#                 self.samplesright[int(start_at_second * self.framerate): int(self.framerate * end_at_second)],
-#                 linewidth=0.5)
-#
-#        plt.plot([x/self.framerate for x in range(0, int(audio_length * self.framerate))],
-#                 self.samplesleft[int(self.framerate * start_at_second): int(self.framerate * end_at_second)],
-#                 linewidth=0.5)
-
-        plt.ylabel("Amplitude")
-        plt.xlabel("Time [s]")
-        plt.title("Sample Wav")
-        plt.show()
-
-
-def round_seconds_by_frequency(framerate, seconds):
-    seconds = framerate * seconds
-    seconds = int(seconds)
-    seconds = seconds / framerate
-    return seconds
-
-
-a = AudioFile('samples/sax.wav')
-
-start_time = time.time()
-a.read_audio_samples()
-a.display_plot(0, 1)
-
-print("--- %s seconds ---" % (time.time() - start_time))
