@@ -13,7 +13,7 @@ samples = {
     '57': 'samples/metronome/57.mp3',
     '61': 'samples/metronome/61.mp3',
     '65': 'samples/metronome/65.mp3',
-    '79': 'samples/metronome/79.wav',
+    '79': 'samples/metronome/79.mp3',
     '90': 'samples/metronome/90.mp3',
     '112': 'samples/metronome/112.mp3',
     '129': 'samples/metronome/129.mp3',
