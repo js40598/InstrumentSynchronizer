@@ -5,7 +5,7 @@ import time
 from instrsyn.AudioFile import AudioFile
 from instrsyn.round_seconds_by_frequency import round_seconds_by_frequency
 from instrsyn.bpm_detection import get_file_bpm
-import os.path
+import os
 
 samples = {
     '45': 'samples/metronome/45.mp3',
@@ -21,7 +21,10 @@ samples = {
     '183': 'samples/metronome/183.mp3',
     '200': 'samples/metronome/200.mp3',
 }
+test_file_directory = 'tests/unit/unittest_samples/45.mp3'
 
+a = AudioFile(test_file_directory)
+a.convert('wav')
 for key, value in samples.items():
     start_time = time.time()
 

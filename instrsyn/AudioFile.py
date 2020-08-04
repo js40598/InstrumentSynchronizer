@@ -5,6 +5,7 @@ from pydub import AudioSegment
 import os
 import numpy as np
 
+
 class AudioFile:
     def __init__(self, directory):
         self.directory = directory

@@ -12,6 +12,7 @@ To do:
     Go on with app functions, not only reading files,
     Beats coords saved in tab and used to make them synchronize with others? 
     Metronome generator?
+    Tests
     
     
     
