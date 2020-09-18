@@ -38,9 +38,8 @@ a.display_plot(0, 5)
 # #                                           'hop_s': int,          # h
 # #                                           'samplerate': int})    # sample
 # # return bpm of file (float)
-bpm = get_file_bpm(a.directory, params={'win_s': 128,
-                                        'hop_s': 32,
+bpm = get_file_bpm(a.directory, params={'win_s': 256,
+                                        'hop_s': 16,
                                         'samplerate': a.framerate
                                         })
 print(bpm)
-
