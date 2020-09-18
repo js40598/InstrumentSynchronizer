@@ -13,7 +13,7 @@ class Metronome:
         tab = [[0, 0]] * self.frequency * self.duration
         bps = 60 / self.bpm * self.frequency
         bps = int(bps)
-        for i in range(1, len(tab), bps):
+        for i in range(1, len(tab)-len(TICK_VALUES), bps):
             for j in range(0, len(TICK_VALUES)):
                 tab[i+j] = [TICK_VALUES[j % len(TICK_VALUES)][0] * 100_000,
                             TICK_VALUES[j % len(TICK_VALUES)][1] * 100_000]
