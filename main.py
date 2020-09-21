@@ -8,30 +8,32 @@ from instrsyn.round_seconds_by_frequency import round_seconds_by_frequency
 from instrsyn.bpm_detection import get_file_bpm
 import os
 
+FILE_DIRECTORY = 'samples/metronome/generated_metronome.wav'
+
 
 # # Metronome(frequency, duration_seconds, bpm)
 # # creates metronome object
 # # write('file/directory', frequency, array_of_samples)
 # # selves: bpm, frequency, duration, samples
 
-m = Metronome(44100, 10, 120)
-write('samples/metronome/generated_metronome.wav', m.frequency, m.samples)
+# m = Metronome(44100, 10, 60)
+# write(FILE_DIRECTORY, m.frequency, m.samples)
 
 
 # # AudioFile('file/directory')
 # # creates audio file object
 # # methods:
-# # convert(goto) gotos: mp3, wav, flv, raw, ogg
+# # convert(goto, delete_file) gotos: mp3, wav, flv, raw, ogg,
+# # delete_file = True to delete file you are converting from
 # # read_audio_samples() change format if not wav,
 # # reads file framerate and samples in stereo if possible
 # # display_plot(start_at_second, end_at_second)
 # # detect_notes(), detect_tempo() does not work
 # # selves: directory, format, audio, framerate, samplesleft, samplesright
 
-a = AudioFile('samples/metronome/generated_metronome.wav')
+a = AudioFile(FILE_DIRECTORY)
 a.read_audio_samples()
-a.display_plot(0, 5)
-
+a.display_plot(0, 200/44100)
 
 
 # # get_file_bpm(path, params = None) params={'win_s': int,          # win_s
@@ -42,4 +44,4 @@ bpm = get_file_bpm(a.directory, params={'win_s': 256,
                                         'hop_s': 16,
                                         'samplerate': a.framerate
                                         })
-print(bpm)
+

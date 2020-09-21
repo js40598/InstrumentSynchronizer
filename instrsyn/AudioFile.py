@@ -14,7 +14,7 @@ class AudioFile:
         self.samplesleft, self.samplesright = self.read_audio_samples()
         self.framerate = self.audio[0]
 
-    def convert(self, goto):
+    def convert(self, goto, delete_file=False):
         exto = os.path.splitext(self.directory)[0] + '.' + goto
         if self.format == 'mp3':
             exfrom = AudioSegment.from_mp3(self.directory)
@@ -28,6 +28,8 @@ class AudioFile:
             exfrom = AudioSegment.from_raw(self.directory)
         exfrom.export(exto, format=goto)
         print('Audio succesfully converted from {} to {}'.format(self.format, goto))
+        if delete_file:
+            os.remove(self.directory)
         self.format = goto
         self.directory = list(self.directory)
         self.directory[-3:] = self.format
