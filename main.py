@@ -11,13 +11,14 @@ import os
 FILE_DIRECTORY = 'samples/metronome/generated_metronome.wav'
 
 
-# # Metronome(frequency, duration_seconds, bpm)
+# # Metronome(frequency, duration_seconds, bpm, stereo=True)
 # # creates metronome object
 # # write('file/directory', frequency, array_of_samples)
-# # selves: bpm, frequency, duration, samples
+# # selves: bpm, frequency, duration, samples, stereo
 
-# m = Metronome(44100, 10, 60)
-# write(FILE_DIRECTORY, m.frequency, m.samples)
+m = Metronome(44100, 10, 60, True)
+print(m.samples)
+write(FILE_DIRECTORY, m.frequency, m.samples)
 
 
 # # AudioFile('file/directory')
@@ -26,14 +27,16 @@ FILE_DIRECTORY = 'samples/metronome/generated_metronome.wav'
 # # convert(goto, delete_file) gotos: mp3, wav, flv, raw, ogg,
 # # delete_file = True to delete file you are converting from
 # # read_audio_samples() change format if not wav,
-# # reads file framerate and samples in stereo if possible
+# # reads file framerate and samples in stereo if possible,
+# # does not need to be executed!
 # # display_plot(start_at_second, end_at_second)
 # # detect_notes(), detect_tempo() does not work
 # # selves: directory, format, audio, framerate, samplesleft, samplesright
 
 a = AudioFile(FILE_DIRECTORY)
-a.read_audio_samples()
 a.display_plot(0, 200/44100)
+print(a.samplesleft)
+print(a.samplesright)
 
 
 # # get_file_bpm(path, params = None) params={'win_s': int,          # win_s
