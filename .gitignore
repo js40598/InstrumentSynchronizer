@@ -3,3 +3,4 @@
 *.raw
 *.flv
 *.ogg
+__pycache__
