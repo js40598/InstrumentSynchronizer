@@ -41,10 +41,10 @@ class AudioFile:
         return read(self.directory)
 
     def read_audio_samples(self):
-        if isinstance(self.audio[1][0], list):
+        if isinstance(self.audio[1][0], np.ndarray):
             return self.audio[1].T
         else:
-            return self.audio[1], self.audio[1]
+            return [self.audio[1], self.audio[1]]
 
     def display_plot(self, start_at_second, end_at_second):
         start_at_second = round_seconds_by_frequency(self.framerate, start_at_second)
