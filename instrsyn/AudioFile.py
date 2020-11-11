@@ -16,16 +16,7 @@ class AudioFile:
 
     def convert(self, goto, delete_file=False):
         exto = os.path.splitext(self.directory)[0] + '.' + goto
-        if self.format == 'mp3':
-            exfrom = AudioSegment.from_mp3(self.directory)
-        elif self.format == 'wav':
-            exfrom = AudioSegment.from_wav(self.directory)
-        elif self.format == 'flv':
-            exfrom = AudioSegment.from_flv(self.directory)
-        elif self.format == 'ogg':
-            exfrom = AudioSegment.from_ogg(self.directory)
-        elif self.format == 'raw':
-            exfrom = AudioSegment.from_raw(self.directory)
+        exfrom = AudioSegment.from_file(self.directory, self.format)
         exfrom.export(exto, format=goto)
         print('Audio succesfully converted from {} to {}'.format(self.format, goto))
         if delete_file:
@@ -37,7 +28,7 @@ class AudioFile:
 
     def read_audio(self):
         if self.format != 'wav':
-            self.convert('wav')
+            self.convert('wav', False)
         return read(self.directory)
 
     def read_audio_samples(self):

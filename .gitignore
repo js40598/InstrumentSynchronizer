@@ -3,4 +3,5 @@
 *.raw
 *.flv
 *.ogg
+*.m4a
 instrsyn/__pycache__/
