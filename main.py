@@ -20,11 +20,19 @@ def generate_metronome_with_provided_tick(tick_file_directory='samples/sounds/ti
     write(output_directory, metronome.frequency, metronome.samples)
 
 
+def read_file(file_directory,
+              print_framerate=True,
+              display_plot=True,
+              print_samplesleft=True):
+    a = AudioFile(file_directory)
+    print('framerate:', a.framerate)
+    print(a.samplesleft)
+    return a
+
 start_time = time.time()
 
 # FILE_DIRECTORY = 'samples/recorded_wav/60.wav'
 # FILE_DIRECTORY = 'samples/metronome/generated_metronome.wav'
-FILE_DIRECTORY = 'samples/sounds/tick.wav'
 
 # # Metronome(frequency, duration_seconds, bpm, stereo=True)
 # # creates metronome object
@@ -35,9 +43,6 @@ FILE_DIRECTORY = 'samples/sounds/tick.wav'
 # print('samples: ', m.samples)
 # print('highest sample: ', max(m.samples))
 # write(FILE_DIRECTORY, m.frequency, m.samples)
-
-
-generate_metronome_with_provided_tick()
 
 
 # # AudioFile('file/directory')
@@ -52,11 +57,19 @@ generate_metronome_with_provided_tick()
 # # detect_notes(), detect_tempo() does not work
 # # selves: directory, format, audio, framerate, samplesleft, samplesright
 
-a = AudioFile(FILE_DIRECTORY)
-print('framerate:', a.framerate)
-a.display_plot(0)
-print(a.samplesleft)
-print('here', a.read_audio_samples().T)
+# a = AudioFile(FILE_DIRECTORY)
+# print('framerate:', a.framerate)
+# a.display_plot(0)
+# print(a.samplesleft)
+# print('here', a.read_audio_samples().T)
+
+# generate_metronome_with_provided_tick()
+
+FILE_DIRECTORY = 'samples/metronome/custom/generated_metronome.wav'
+
+a = read_file(FILE_DIRECTORY)
+a.display_plot(0, 2)
+
 
 
 # # get_file_bpm(path, params = None) params={'win_s': int,          # win_s
