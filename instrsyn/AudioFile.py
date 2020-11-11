@@ -37,7 +37,12 @@ class AudioFile:
         else:
             return [self.audio[1], self.audio[1]]
 
-    def display_plot(self, start_at_second, end_at_second):
+    def display_plot(self, start_at_second=None, end_at_second=None):
+        if not start_at_second:
+            start_at_second = 0
+        if not end_at_second:
+            end_at_second = len(self.samplesleft) / self.framerate
+
         start_at_second = round_seconds_by_frequency(self.framerate, start_at_second)
         end_at_second = round_seconds_by_frequency(self.framerate, end_at_second)
         audio_length = end_at_second - start_at_second

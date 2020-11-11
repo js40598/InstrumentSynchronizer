@@ -8,10 +8,23 @@ from instrsyn.round_seconds_by_frequency import round_seconds_by_frequency
 from instrsyn.bpm_detection import get_file_bpm
 import os
 
+
+def generate_metronome_with_provided_tick(tick_file_directory='samples/sounds/tick.wav',
+                                          output_directory='samples/metronome/custom/generated_metronome.wav',
+                                          frequency=44100,
+                                          length=10,
+                                          tempo=60,
+                                          stereo=False):
+    tick_file = AudioFile(tick_file_directory)
+    metronome = Metronome(frequency, length, tempo, tick_file.read_audio_samples().T, stereo)
+    write(output_directory, metronome.frequency, metronome.samples)
+
+
 start_time = time.time()
 
-FILE_DIRECTORY = 'samples/recorded_wav/60.wav'
-
+# FILE_DIRECTORY = 'samples/recorded_wav/60.wav'
+# FILE_DIRECTORY = 'samples/metronome/generated_metronome.wav'
+FILE_DIRECTORY = 'samples/sounds/tick.wav'
 
 # # Metronome(frequency, duration_seconds, bpm, stereo=True)
 # # creates metronome object
@@ -19,9 +32,12 @@ FILE_DIRECTORY = 'samples/recorded_wav/60.wav'
 # # selves: bpm, frequency, duration, samples, stereo
 
 # m = Metronome(44100, 10, 60, False)
-# print(m.samples)
-# print(max(m.samples))
+# print('samples: ', m.samples)
+# print('highest sample: ', max(m.samples))
 # write(FILE_DIRECTORY, m.frequency, m.samples)
+
+
+generate_metronome_with_provided_tick()
 
 
 # # AudioFile('file/directory')
@@ -37,8 +53,10 @@ FILE_DIRECTORY = 'samples/recorded_wav/60.wav'
 # # selves: directory, format, audio, framerate, samplesleft, samplesright
 
 a = AudioFile(FILE_DIRECTORY)
-a.display_plot(3, 5)
-print('framerate', a.framerate)
+print('framerate:', a.framerate)
+a.display_plot(0)
+print(a.samplesleft)
+print('here', a.read_audio_samples().T)
 
 
 # # get_file_bpm(path, params = None) params={'win_s': int,          # win_s
@@ -50,8 +68,4 @@ bpm = get_file_bpm(a.directory, params={'win_s': 256,
                                         'samplerate': a.framerate
                                         })
 print('bpm: ', bpm)
-
-
-
-
 print("--- %s seconds ---" % (time.time() - start_time))
