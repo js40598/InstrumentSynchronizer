@@ -22,7 +22,6 @@ def generate_metronome_with_provided_tick(tick_file_directory='samples/sounds/ti
 
 def read_file(file_directory,
               print_framerate=True,
-              display_plot=True,
               print_samplesleft=True):
     a = AudioFile(file_directory)
     print('framerate:', a.framerate)
@@ -68,7 +67,7 @@ start_time = time.time()
 FILE_DIRECTORY = 'samples/metronome/custom/generated_metronome.wav'
 
 a = read_file(FILE_DIRECTORY)
-a.display_plot(0, 2)
+a.display_plot(0, 5)
 
 
 
