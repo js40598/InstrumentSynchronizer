@@ -217,3 +217,7 @@ while True:
     print('runs passed: ', counter)
     print('runs failed: ', fcounter)
     print('average single run time: ', round(sum(times)/len(times), 2), 'seconds')
+
+# runs passed:  259
+# runs failed:  0
+# average single run time:  12.28 seconds
