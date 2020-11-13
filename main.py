@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import time
 from instrsyn.AudioFile import AudioFile
+from instrsyn.Synchronizer import Synchronizer
 from instrsyn.round_seconds_by_frequency import round_seconds_by_frequency
 from instrsyn.bpm_detection import get_file_bpm
 import os
@@ -80,4 +81,10 @@ bpm = get_file_bpm(a.directory, params={'win_s': 256,
                                         'samplerate': a.framerate
                                         })
 print('bpm: ', bpm)
+
+s = Synchronizer(a.framerate, int(bpm), list(a.samplesleft))
+
+print('beat indexes synchronized: ', s.beat_indexes)
+
+
 print("--- %s seconds ---" % (time.time() - start_time))
