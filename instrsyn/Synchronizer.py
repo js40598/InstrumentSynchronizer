@@ -1,8 +1,3 @@
-import matplotlib.pyplot as plt
-from random import randint
-import time
-
-
 class Synchronizer:
     def __init__(self, framerate, bpm, samples):
         self.framerate = framerate
@@ -48,26 +43,29 @@ class Synchronizer:
                 if (diff - self.framerate) % 100 != 0:
                     min_value = min(self.samples[start_index:end_index])
                     pop_index = self.samples[start_index:end_index].index(min_value)
-                    for j in range(0, (diff - self.framerate) % 100):
-                        self.samples.pop(start_index + pop_index)
+                    mod = (diff - self.framerate) % 100
+                    self.samples = self.samples[0:start_index+pop_index] + self.samples[start_index+pop_index+mod::]
+                    # for j in range(0, (diff - self.framerate) % 100):
+                    #     self.samples.pop(start_index + pop_index)
 
                 # begin deleting blocks
                 min_value = min(self.samples[start_index:end_index])
                 pop_index = self.samples[start_index:end_index].index(min_value)
                 for j in range(0, int((diff - self.framerate) / 100)):
-                    for k in range(0, 100):
-                        self.samples.pop(start_index + pop_index)
+                    self.samples = self.samples[0:start_index+pop_index] + self.samples[start_index+pop_index+100::]
+                    # for k in range(0, 100):
+                    #     self.samples.pop(start_index + pop_index)
                 # correct values of beats, as list of values is modified
                 for j in range(i, len(self.beat_indexes)):
                     self.beat_indexes[j] = self.beat_indexes[j] - (diff - self.framerate)
             # if beat is too early
             elif diff < self.framerate:
-                min_value = min(self.samples[start_index:end_index])
-                insert_index = self.samples[start_index:end_index].index(min_value)
+                min_value = min([abs(x) for x in self.samples[start_index+int(self.framerate/5):end_index-int(self.framerate/5)]])
+                insert_index = self.samples[start_index+int(self.framerate/5):end_index-int(self.framerate/5)].index(min_value)
 
                 # extend lowest values to synchronize
                 for j in range(0, self.framerate - diff):
-                    self.samples.insert(start_index + insert_index, 0)
+                    self.samples.insert(start_index + int(self.framerate/5) + insert_index, 0)
 
                 # correct values of beats, as list of values is modified
                 for j in range(i, len(self.beat_indexes)):

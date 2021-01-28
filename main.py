@@ -25,8 +25,10 @@ def read_file(file_directory,
               print_framerate=True,
               print_samplesleft=True):
     a = AudioFile(file_directory)
-    print('framerate:', a.framerate)
-    print(a.samplesleft)
+    if print_framerate:
+        print('framerate:', a.framerate)
+    if print_samplesleft:
+        print(a.samplesleft)
     return a
 
 start_time = time.time()
@@ -68,7 +70,8 @@ start_time = time.time()
 FILE_DIRECTORY = 'samples/metronome/custom/generated_metronome.wav'
 
 a = read_file(FILE_DIRECTORY)
-a.display_plot(0, 5)
+# a.convert('wav')
+a.display_plot(0, 10)
 
 
 
@@ -76,13 +79,22 @@ a.display_plot(0, 5)
 # #                                           'hop_s': int,          # h
 # #                                           'samplerate': int})    # sample
 # # return bpm of file (float)
-bpm = get_file_bpm(a.directory, params={'win_s': 256,
-                                        'hop_s': 16,
-                                        'samplerate': a.framerate
-                                        })
+bpm = 60
+# bpm = get_file_bpm(a.directory, params={'win_s': 256,
+#                                         'hop_s': 16,
+#                                         'samplerate': a.framerate
+#                                         })
 print('bpm: ', bpm)
 
 s = Synchronizer(a.framerate, int(bpm), list(a.samplesleft))
+
+s.synchronize()
+
+write('samples/synchronized/synchronized10sec.wav', s.framerate, np.array(s.synchronized_samples))
+
+sa = read_file('samples/synchronized/synchronized10sec.wav')
+sa.display_plot(0, 10)
+print(sa.framerate)
 
 print('beat indexes synchronized: ', s.beat_indexes)
 

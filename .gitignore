@@ -4,6 +4,7 @@
 *.flv
 *.ogg
 *.m4a
+samples/
 instrsyn/__pycache__/
 *__pycache__*
 thesis.txt
